@@ -1,0 +1,13 @@
+/* CSS */
+body {
+    background: darkgrey;
+    color: black;
+}
+
+ol, li {
+    list-style-type: none;
+}
+
+a, u {
+    text-decoration: none;
+}
