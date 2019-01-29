@@ -2,7 +2,7 @@
 # https://www.geeksforgeeks.org/find-k-closest-elements-given-value/
 import math
 import csv
-import copy
+
 
 # basically do a binary search to find the value closest
 def bin_search_closest(arr, low, high, t):
@@ -77,8 +77,9 @@ def n_closest(full_list, target, num_to_return):
 
 
 def guess(array, target):
-    num_items_returned = 5
-    closest_list = n_closest(array, target, num_items_returned)
+    # Let's take the 5 closest values and base our guess on
+    # whichever animal is chosen most in that list
+    closest_list = n_closest(array, target, 5)
     print('Preferences:', closest_list)
     return max(set(closest_list), key=closest_list.count)
 
@@ -98,6 +99,7 @@ def guts():
     h = float(input('Enter height: '))
     w = float(input('Enter weight: '))
 
+    # Perhaps we'd store the data in a DB with these fields?
     # 'distance','animal','height','weight','guess'
     with open('ahw.csv', 'r') as data_file:
         has_header = csv.Sniffer().has_header(data_file.read(1024))
@@ -114,11 +116,11 @@ def guts():
 
     print("For target {:f}:".format(target_value))
     the_guess = guess(list(map(lambda x: x[:2], csv_list)), target_value)
-    the_prompt = "Is {:s} your preference? Y/N ".format(the_guess)
+    the_prompt = "Is {:s} your preference? y/N ".format(the_guess)
     correct_guess = raw_input(the_prompt)
 
     # add new entry to csv file
-    if correct_guess == 'Y':
+    if correct_guess == 'y':
         new_row = [the_guess, h, w]
     else:
         if the_guess == 'Cat':
