@@ -4,8 +4,9 @@ import math
 import csv
 
 
-# basically do a binary search to find the value closest
 def bin_search_closest(arr, low, high, t):
+    # do a binary search to find the value closest
+    # Assumes: arr is sorted list
     if arr[high][0] <= t:  # x is greater than any in list
         return high
 
@@ -24,9 +25,11 @@ def bin_search_closest(arr, low, high, t):
     return bin_search_closest(arr, low, mid - 1, t)
 
 
-# This function prints k closest elements to x in arr[]. n is the number of elements in arr[]
-# Assumption: all elements in arr[] are distinct
 def n_closest(full_list, target, num_to_return):
+    # This function returns a list (size <num_to_return>)
+    # of the animal preferences closest to <target>
+    #
+    # Assumes: all elements in full_list are distinct
     full_list.sort()  # key=lambda x: x[0]
     length = len(full_list)
 
