@@ -1,23 +1,23 @@
 # Inspiration taken from
 # https://www.geeksforgeeks.org/find-k-closest-elements-given-value/
 import math
-
+import csv
+import copy
 
 # basically do a binary search to find the value closest
 def bin_search_closest(arr, low, high, t):
-    if arr[high][0] <= t:  # x is greater than all
+    if arr[high][0] <= t:  # x is greater than any in list
         return high
 
-    if arr[low][0] > t:  # x is smaller than all
+    if arr[low][0] > t:  # x is smaller than any in list
         return low
 
     mid = (low + high) // 2  # Find the middle point
-
     if arr[mid][0] <= t < arr[mid + 1][0]:  # If x same as mid, return mid
         return mid
 
-    # If x is greater than arr[mid], then either arr[mid + 1] is ceiling of x or
-    # ceiling lies in arr[mid+1...high]
+    # If t is greater than arr[mid], then either arr[mid + 1] is ceiling of t
+    # or ceiling lies in arr[mid+1...high]
     if arr[mid][0] < t:
         return bin_search_closest(arr, mid + 1, high, t)
 
@@ -71,27 +71,38 @@ def n_closest(full_list, target, num_to_return):
         r += 1
         count += 1
 
-    print(pos_list)
-    print(values_list)
+    print('Positions:', pos_list)
+    print('Values:', values_list)
     return closest_list
 
 
 def guess(array, target):
     num_items_returned = 5
     closest_list = n_closest(array, target, num_items_returned)
-    print(closest_list)
+    print('Preferences:', closest_list)
     return max(set(closest_list), key=closest_list.count)
 
 
-# Testing stub
-if __name__ == "__main__":
-    import csv
+def guts():
+    # basic flow (pseudo code)
+    # prompt user for data height, weight
+    # load data for height, weight, preference
+    # use input in algorithm to calculate guess
+    #   One algorithm example:
+    #   calculate distance data from height, weight for all entries
+    #   calculate distance data for user height, weight
+    #   output guess
+    # prompt user to confirm guess == preference
+    # record data height, weight, preference, guess
+
+    h = float(input('Enter height: '))
+    w = float(input('Enter weight: '))
 
     # 'distance','animal','height','weight','guess'
-    with open('ahw.csv', 'r') as file:
-        has_header = csv.Sniffer().has_header(file.read(1024))
-        file.seek(0)  # Rewind
-        reader = csv.reader(file)
+    with open('ahw.csv', 'r') as data_file:
+        has_header = csv.Sniffer().has_header(data_file.read(1024))
+        data_file.seek(0)  # Rewind
+        reader = csv.reader(data_file)
         if has_header:  # Skip header row
             next(reader)
         csv_list = list(reader)
@@ -99,9 +110,27 @@ if __name__ == "__main__":
     for row in csv_list:
         row.insert(0, math.sqrt(float(row[1]) ** 2 + float(row[2]) ** 2))
 
-    input_list = list(map(lambda x: x[:2], csv_list))
-    # print(input_list)
-    target_value = 153  # pull this from the input values sqrt(w^2+h^2)
+    target_value = math.sqrt(h ** 2 + w ** 2)
 
     print("For target {:f}:".format(target_value))
-    print(guess(input_list, target_value))
+    the_guess = guess(list(map(lambda x: x[:2], csv_list)), target_value)
+    the_prompt = "Is {:s} your preference? Y/N ".format(the_guess)
+    correct_guess = raw_input(the_prompt)
+
+    # add new entry to csv file
+    if correct_guess == 'Y':
+        new_row = [the_guess, h, w]
+    else:
+        if the_guess == 'Cat':
+            new_row = ['Dog', h, w]
+        else:
+            new_row = ['Cat', h, w]
+
+    with open('ahw.csv', 'ab') as data_file:
+        writer = csv.writer(data_file)
+        writer.writerow(new_row)
+
+
+# Testing stub
+if __name__ == "__main__":
+    guts()
