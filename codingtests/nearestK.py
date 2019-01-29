@@ -1,5 +1,6 @@
 # Inspiration taken from
 # https://www.geeksforgeeks.org/find-k-closest-elements-given-value/
+import math
 
 
 # basically do a binary search to find the value closest
@@ -25,8 +26,10 @@ def find_cross_over(arr, low, high, x):
 
 # This function prints k closest elements to x in arr[]. n is the number of elements in arr[]
 # Assumption: all elements in arr[] are distinct
-def k_closest(array, target, num_to_return):
+def n_closest(array, target, num_to_return):
+    array.sort(key=lambda x: x[0])
     length = len(array)
+    print(array, length)
     pos = find_cross_over(array, 0, length - 1, target)  # Find the crossover point
     r = pos + 1  # Right index to search
     count = 0  # To keep track of count of elements already printed
@@ -63,18 +66,30 @@ def k_closest(array, target, num_to_return):
 
 def guess(array, target):
     num_items_returned = 5
-    closest_list = k_closest(array, target, num_items_returned)
-
+    closest_list = n_closest(array, target, num_items_returned)
+    print(closest_list)
     return max(set(closest_list), key=closest_list.count)
 
 
 # Testing stub
 if __name__ == "__main__":
-    starting_array = [[84.44284478, 'cat'], [88.64275596, 'cat'], [89.88920134, 'cat'],
-                      [92.63887306, 'dog'], [95.86518967, 'dog'], [96.03619648, 'dog'],
-                      [96.63887306, 'cat'], [97.86518967, 'cat'], [98.03619648, 'cat'],
-                      [98.63887306, 'dog'], [98.86518967, 'dog'], [99.03619648, 'dog']]
-    target_value = 98  # pull this from the input values sqrt(w^2+h^2)
+    import csv
 
-    print("For target {:d}:".format(target_value))
-    print(guess(starting_array, target_value))
+    # 'distance','animal','height','weight','guess'
+    with open('ahw.csv', 'r') as file:
+        has_header = csv.Sniffer().has_header(file.read(1024))
+        file.seek(0)  # Rewind
+        reader = csv.reader(file)
+        if has_header:  # Skip header row
+            next(reader)
+        csv_list = list(reader)
+
+    for row in csv_list:
+        row.insert(0, math.sqrt(float(row[1]) ** 2 + float(row[2]) ** 2))
+
+    input_list = list(map(lambda x: x[:2], csv_list))
+    # print(input_list)
+    target_value = 265  # pull this from the input values sqrt(w^2+h^2)
+
+    print("For target {:f}:".format(target_value))
+    print(guess(input_list, target_value))

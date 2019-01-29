@@ -1,2 +1,4 @@
 # Ignore the config files for IDE
 .idea/*
+*/.idea/*
+codingtests/tTaCaD/*
