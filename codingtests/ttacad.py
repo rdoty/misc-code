@@ -16,6 +16,17 @@ def get_data():
     return ret_val
 
 
+def get_guess(h, w):
+    data_list = get_data()
+    num_points_to_compare = 5
+    for row in data_list:  # calculate distances
+        row.insert(0, math.sqrt((h - float(row[1])) ** 2 + (w - float(row[2])) ** 2))
+    data_list.sort()  # find closest values
+    closest_animals = data_list[:num_points_to_compare]
+    closest_animals = [x[1] for x in closest_animals]  # Get the animal preferences
+    return max(set(closest_animals), key=closest_animals.count)  # Get most common value
+
+
 def guts():
     # basic flow (pseudo code)
     # prompt user for data height, weight
@@ -27,23 +38,16 @@ def guts():
     # prompt user to confirm guess == preference
     # record data height, weight, preference, guess
 
-    num_points_to_compare = 5
     h = float(input('Enter height: '))
     w = float(input('Enter weight: '))
 
-    csv_list = get_data()
-    for row in csv_list:  # calculate distances
-        row.insert(0, math.sqrt((h - float(row[1])) ** 2 + (w - float(row[2])) ** 2))
-    csv_list.sort()  # find closest values
-    closest_animals = csv_list[:num_points_to_compare]
-    closest_animals = [x[1] for x in closest_animals]  # Get the animal preferences
+    the_guess = get_guess(h, w)
 
-    the_guess = max(set(closest_animals), key=closest_animals.count)  # Get most common value
     the_prompt = "Is {:s} your preference? y/N ".format(the_guess)
-    correct_guess = raw_input(the_prompt)
+    correct_guess = True if raw_input(the_prompt) == 'y' else False
 
     # add new entry to csv file
-    if correct_guess == 'y':
+    if correct_guess:
         new_row = [the_guess, h, w]
     else:
         new_row = ['Dog', h, w] if the_guess == 'Cat' else ['Cat', h, w]
