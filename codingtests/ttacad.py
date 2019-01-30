@@ -4,89 +4,6 @@ import math
 import csv
 
 
-def bin_search_closest(arr, low, high, t):
-    # do a binary search to find the value closest
-    # Assumes: arr is sorted list
-    if arr[high][0] <= t:  # x is greater than any in list
-        return high
-
-    if arr[low][0] > t:  # x is smaller than any in list
-        return low
-
-    mid = (low + high) // 2  # Find the middle point
-    if arr[mid][0] <= t < arr[mid + 1][0]:  # If x same as mid, return mid
-        return mid
-
-    # If t is greater than arr[mid], then either arr[mid + 1] is ceiling of t
-    # or ceiling lies in arr[mid+1...high]
-    if arr[mid][0] < t:
-        return bin_search_closest(arr, mid + 1, high, t)
-
-    return bin_search_closest(arr, low, mid - 1, t)
-
-
-def n_closest(full_list, target, num_to_return):
-    # This function returns a list (size <num_to_return>)
-    # of the animal preferences closest to <target>
-    #
-    # Assumes: all elements in full_list are distinct
-    full_list.sort()  # key=lambda x: x[0]
-    length = len(full_list)
-
-    pos = bin_search_closest(full_list, 0, length - 1, target)  # Find the crossover point
-    r = pos + 1  # Right index to search
-    count = 0  # To keep track of count of elements already printed
-    closest_list = []
-    values_list = []
-    pos_list = []
-
-    # If x is present in arr[], then reduce left index.
-    if full_list[pos] == target:
-        pos -= 1
-
-    # Compare elements on left and right of crossover point to find the k closest elements
-    while pos >= 0 and r < length and count < num_to_return:
-        if target - full_list[pos][0] < full_list[r][0] - target:
-            closest_list.append(full_list[pos][1])
-            values_list.append(full_list[pos][0])
-            pos_list.append(pos)
-            pos -= 1
-        else:
-            closest_list.append(full_list[r][1])
-            values_list.append(full_list[r][0])
-            pos_list.append(r)
-            r += 1
-        count += 1
-
-    # If there are no more elements on right side, then print left elements
-    while count < num_to_return and pos >= 0:
-        closest_list.append(full_list[pos][1])
-        values_list.append(full_list[pos][0])
-        pos_list.append(pos)
-        pos -= 1
-        count += 1
-
-    # If there are no more elements on left side, then print right elements
-    while count < num_to_return and r < length:
-        closest_list.append(full_list[r][1])
-        values_list.append(full_list[r][0])
-        pos_list.append(r)
-        r += 1
-        count += 1
-
-    print('Positions:', pos_list)
-    print('Values:', values_list)
-    return closest_list
-
-
-def guess(array, target):
-    # Let's take the 5 closest values and base our guess on
-    # whichever animal is chosen most in that list
-    closest_list = n_closest(array, target, 5)
-    print('Preferences:', closest_list)
-    return max(set(closest_list), key=closest_list.count)
-
-
 def guts():
     # basic flow (pseudo code)
     # prompt user for data height, weight
@@ -113,12 +30,13 @@ def guts():
         csv_list = list(reader)
 
     for row in csv_list:
-        row.insert(0, math.sqrt(float(row[1]) ** 2 + float(row[2]) ** 2))
+        row.insert(0, math.sqrt((h - float(row[1])) ** 2 + (w - float(row[2])) ** 2))
+    csv_list.sort()
+    closest_animals = csv_list[:5]  # The first five are the closest to the given h, w values
+    closest_animals = [x[1] for x in closest_animals]
+    print closest_animals
 
-    target_value = math.sqrt(h ** 2 + w ** 2)
-
-    print("For target {:f}:".format(target_value))
-    the_guess = guess(list(map(lambda x: x[:2], csv_list)), target_value)
+    the_guess = max(set(closest_animals), key=closest_animals.count)
     the_prompt = "Is {:s} your preference? y/N ".format(the_guess)
     correct_guess = raw_input(the_prompt)
 
