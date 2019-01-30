@@ -1,5 +1,3 @@
-# Inspiration taken from
-# https://www.geeksforgeeks.org/find-k-closest-elements-given-value/
 import math
 import csv
 
@@ -10,8 +8,7 @@ def guts():
     # load data for height, weight, preference
     # use input in algorithm to calculate guess
     #   One algorithm example:
-    #   calculate distance data from height, weight for all entries
-    #   calculate distance data for user height, weight
+    #   calculate distance data from user height, weight for all entries
     #   output guess
     # prompt user to confirm guess == preference
     # record data height, weight, preference, guess
