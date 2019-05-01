@@ -1,4 +1,3 @@
-import java.io.*;
 import java.util.*;
 
 /* 2019.04.30 Call w/Annie Shin of Nova Credit (45 minutes for exercise)
@@ -11,9 +10,6 @@ import java.util.*;
  *  returns the number of visits in the past 1 minute
  * };
  */
-import java.io.*;
-import java.util.*;
-
 class Solution {
     private static ArrayList<Long> hitsEachSecond = new ArrayList<Long>();  // Could use something other than ArrayList
 
@@ -41,7 +37,7 @@ class Solution {
     /**
      * Add 1 to the last array entry
      */
-    private static void logHits() {
+    private static void logHit() {
         Long hitsThisSecond = Solution.hitsEachSecond.get(Solution.hitsEachSecond.size() - 1);
         Solution.hitsEachSecond.set(Solution.hitsEachSecond.size() - 1, hitsThisSecond + 1);
     }
@@ -69,7 +65,7 @@ class Solution {
              */
             @Override
             public void run() {
-                logHits();
+                logHit();
                 System.out.print("H");  // Debug info indicating a new hit has been logged
             }
         }, 500, 340);
