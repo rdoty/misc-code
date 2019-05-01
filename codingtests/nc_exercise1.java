@@ -28,7 +28,7 @@ class Solution {
              */
             @Override
             public void run() {
-                int firstEntry = Solution.hitsPerSecond.size() > 59 ? 1 : 0;
+                int firstEntry = Solution.hitsPerSecond.size() > 59 ? Solution.hitsPerSecond.size() - 59 : 0;
                 Solution.hitsPerSecond = new ArrayList<Long>(Solution.hitsPerSecond.subList(firstEntry, Solution.hitsPerSecond.size()));
                 Solution.hitsPerSecond.add(0L);
                 System.out.print(".");  // Debug info indicating a new second has been created
@@ -74,7 +74,7 @@ class Solution {
      * @return the total value of the entries in the array
      */
     private static Long getHits() {
-        System.out.println("\nSeconds logged: " + Solution.hitsPerSecond.size());
+        System.out.println("\nSeconds logged: " + Solution.hitsPerSecond.size());  // Debug info for # seconds recorded
         return Solution.hitsPerSecond.stream().mapToLong(a -> a).sum();
     }
 }
