@@ -1,7 +1,7 @@
 import java.io.*;
 import java.util.*;
 
-/* 2019.04.30 Call w/Annie Shin of Nova Credit
+/* 2019.04.30 Call w/Annie Shin of Nova Credit (45 minutes for exercise)
  * API to count the number of visitors to our website in the past 1 minute
  * const logHit = () => {
  *   log a visit to the website
@@ -15,47 +15,44 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    private static ArrayList<Long> hitsPerSecond = new ArrayList<Long>();
+    private static ArrayList<Long> hitsEachSecond = new ArrayList<Long>();  // I'm sure there's a better type for this.
 
     public static void main(String[] args) throws InterruptedException {
-        Solution.hitsPerSecond.add(0L);
+        Solution.hitsEachSecond.add(0L);  // Add a zeroed entry at the end of the list (first entry of the list)
 
-        Timer hps = new Timer();
-        hps.scheduleAtFixedRate(new TimerTask() {
+        Timer hitCounterLimiter = new Timer();
+        Timer hitLogger = new Timer();
+        Timer hitChecker = new Timer();
+
+        hitCounterLimiter.scheduleAtFixedRate(new TimerTask() {
             /**
              * This is the method that fires every second and truncates the array to
              * the last 59 items then appends a new entry for the current second.
              */
             @Override
             public void run() {
-                int firstEntry = Solution.hitsPerSecond.size() > 59 ? Solution.hitsPerSecond.size() - 59 : 0;
-                Solution.hitsPerSecond = new ArrayList<Long>(Solution.hitsPerSecond.subList(firstEntry, Solution.hitsPerSecond.size()));
-                Solution.hitsPerSecond.add(0L);
+                int firstEntry = Solution.hitsEachSecond.size() > 59 ? Solution.hitsEachSecond.size() - 59 : 0;
+                Solution.hitsEachSecond = new ArrayList<Long>(Solution.hitsEachSecond.subList(firstEntry, Solution.hitsEachSecond.size()));
+                Solution.hitsEachSecond.add(0L);  // Add a new zeroed entry to the end of the list
                 System.out.print(".");  // Debug info indicating a new second has been created
             }
         }, 0,1000);
 
-        Timer hf = new Timer();
-        hf.scheduleAtFixedRate(new TimerTask() {
+        hitLogger.scheduleAtFixedRate(new TimerTask() {
             /**
              * This is the method that simulates traffic by firing every
              * half second and logging a hit.
              */
             @Override
-            public void run() {
-                logHits();
-            }
+            public void run() { logHits(); }
         }, 500, 340);
 
-        Timer gh = new Timer();
-        gh.scheduleAtFixedRate(new TimerTask() {
+        hitChecker.scheduleAtFixedRate(new TimerTask() {
             /**
              * This is the method that outputs the numbers of hits periodically
              */
             @Override
-            public void run() {
-                System.out.println("getHits returns: " + Solution.getHits());
-            }
+            public void run() { System.out.println("getHits returns: " + Solution.getHits()); }
         }, 10000, 10000);
 
     }
@@ -64,8 +61,8 @@ class Solution {
      * Add 1 to the last array entry
      */
     private static void logHits() {
-        Long currentHits = Solution.hitsPerSecond.get(Solution.hitsPerSecond.size() - 1);
-        Solution.hitsPerSecond.set(Solution.hitsPerSecond.size() - 1, currentHits + 1);
+        Long currentHits = Solution.hitsEachSecond.get(Solution.hitsEachSecond.size() - 1);
+        Solution.hitsEachSecond.set(Solution.hitsEachSecond.size() - 1, currentHits + 1);
         System.out.print("H");  // Debug info indicating a new hit has been logged
     }
 
@@ -74,13 +71,13 @@ class Solution {
      * @return the total value of the entries in the array
      */
     private static Long getHits() {
-        System.out.println("\nSeconds logged: " + Solution.hitsPerSecond.size());  // Debug info for # seconds recorded
-        return Solution.hitsPerSecond.stream().mapToLong(a -> a).sum();
+        System.out.println("\nSeconds logged: " + Solution.hitsEachSecond.size());  // Debug info for # seconds recorded
+        return Solution.hitsEachSecond.stream().mapToLong(a -> a).sum();
     }
 }
 
 
-/*
+/* This is the original (crappy, broken) attempt in ~40 minutes
 import java.util.concurrent.TimeUnit;
 
 class AbortedSolution {
