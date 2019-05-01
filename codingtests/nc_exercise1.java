@@ -1,6 +1,9 @@
 import java.util.*;
 
 /* 2019.04.30 Call w/Annie Shin of Nova Credit (45 minutes for exercise)
+ * to execute: "javac nc_exercise1.java" "java Solution"
+ *
+ * Original prompt for exercise below:
  * API to count the number of visitors to our website in the past 1 minute
  * const logHit = () => {
  *   log a visit to the website
@@ -14,23 +17,7 @@ class Solution {
     private static ArrayList<Long> hitsEachSecond = new ArrayList<Long>();  // Could use something other than ArrayList
 
     public static void main(String[] args) throws InterruptedException {
-        Solution.hitsEachSecond.add(0L);  // Add a zeroed entry at the end of the list (first entry of the list)
-
-        Timer hitCounterLimiter = new Timer();
-        hitCounterLimiter.scheduleAtFixedRate(new TimerTask() {
-            /**
-             * This is the method that fires every second and truncates the array to
-             * the last 59 items then appends a new entry for the current second.
-             */
-            @Override
-            public void run() {
-                int firstEntry = Solution.hitsEachSecond.size() > 59 ? Solution.hitsEachSecond.size() - 59 : 0;
-                Solution.hitsEachSecond = new ArrayList<Long>(Solution.hitsEachSecond.subList(firstEntry, Solution.hitsEachSecond.size()));
-                Solution.hitsEachSecond.add(0L);  // Add a new zeroed entry to the end of the list
-                System.out.print(".");  // Debug info indicating a new second has been created
-            }
-        }, 0,1000);
-
+        initializeMinuteCounter();
         runDemo();
     }
 
@@ -48,6 +35,30 @@ class Solution {
      */
     private static Long getHits() {
         return Solution.hitsEachSecond.stream().mapToLong(a -> a).sum();
+    }
+
+    /**
+     * This is all the plumbing for the actual business logic of keeping the last 60
+     * seconds of hits. Includes some debug output for each second tracked.
+     * @throws InterruptedException
+     */
+    private static void initializeMinuteCounter() throws InterruptedException {
+        Solution.hitsEachSecond.add(0L);  // Add a zeroed entry at the end of the list (first entry of the list)
+
+        Timer hitCounterLimiter = new Timer();
+        hitCounterLimiter.scheduleAtFixedRate(new TimerTask() {
+            /**
+             * This is the method that fires every second and truncates the array to
+             * the last 59 items then appends a new entry for the current second.
+             */
+            @Override
+            public void run() {
+                int firstEntry = Solution.hitsEachSecond.size() > 59 ? Solution.hitsEachSecond.size() - 59 : 0;
+                Solution.hitsEachSecond = new ArrayList<Long>(Solution.hitsEachSecond.subList(firstEntry, Solution.hitsEachSecond.size()));
+                Solution.hitsEachSecond.add(0L);  // Add a new zeroed entry to the end of the list
+                System.out.print(".");  // Debug info indicating a new second has been created
+            }
+        }, 0,1000);
     }
 
     /**
