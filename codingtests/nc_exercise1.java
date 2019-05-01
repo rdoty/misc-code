@@ -15,15 +15,12 @@ import java.io.*;
 import java.util.*;
 
 class Solution {
-    private static ArrayList<Long> hitsEachSecond = new ArrayList<Long>();  // I'm sure there's a better type for this.
+    private static ArrayList<Long> hitsEachSecond = new ArrayList<Long>();  // Could use something other than ArrayList
 
     public static void main(String[] args) throws InterruptedException {
         Solution.hitsEachSecond.add(0L);  // Add a zeroed entry at the end of the list (first entry of the list)
 
         Timer hitCounterLimiter = new Timer();
-        Timer hitLogger = new Timer();
-        Timer hitChecker = new Timer();
-
         hitCounterLimiter.scheduleAtFixedRate(new TimerTask() {
             /**
              * This is the method that fires every second and truncates the array to
@@ -37,6 +34,33 @@ class Solution {
                 System.out.print(".");  // Debug info indicating a new second has been created
             }
         }, 0,1000);
+
+        runDemo();
+    }
+
+    /**
+     * Add 1 to the last array entry
+     */
+    private static void logHits() {
+        Long hitsThisSecond = Solution.hitsEachSecond.get(Solution.hitsEachSecond.size() - 1);
+        Solution.hitsEachSecond.set(Solution.hitsEachSecond.size() - 1, hitsThisSecond + 1);
+    }
+
+    /**
+     * Adds the values in the entire array
+     * @return the total value of the entries in the array
+     */
+    private static Long getHits() {
+        return Solution.hitsEachSecond.stream().mapToLong(a -> a).sum();
+    }
+
+    /**
+     * This is here just for demonstrating the functionality, not really part of the solution.
+     * It will run forever until cancelled on the command line.
+     */
+    private static void runDemo() throws InterruptedException {
+        Timer hitLogger = new Timer();
+        Timer hitChecker = new Timer();
 
         hitLogger.scheduleAtFixedRate(new TimerTask() {
             /**
@@ -60,23 +84,6 @@ class Solution {
                 System.out.println("Seconds logged: " + Solution.hitsEachSecond.size());  // Debug info for # seconds recorded
             }
         }, 10000, 10000);
-
-    }
-
-    /**
-     * Add 1 to the last array entry
-     */
-    private static void logHits() {
-        Long hitsThisSecond = Solution.hitsEachSecond.get(Solution.hitsEachSecond.size() - 1);
-        Solution.hitsEachSecond.set(Solution.hitsEachSecond.size() - 1, hitsThisSecond + 1);
-    }
-
-    /**
-     * Adds the values in the entire array
-     * @return the total value of the entries in the array
-     */
-    private static Long getHits() {
-        return Solution.hitsEachSecond.stream().mapToLong(a -> a).sum();
     }
 }
 
