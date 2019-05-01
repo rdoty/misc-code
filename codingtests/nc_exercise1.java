@@ -44,7 +44,10 @@ class Solution {
              * half second and logging a hit.
              */
             @Override
-            public void run() { logHits(); }
+            public void run() {
+                logHits();
+                System.out.print("H");  // Debug info indicating a new hit has been logged
+            }
         }, 500, 340);
 
         hitChecker.scheduleAtFixedRate(new TimerTask() {
@@ -52,7 +55,10 @@ class Solution {
              * This is the method that outputs the numbers of hits periodically
              */
             @Override
-            public void run() { System.out.println("getHits returns: " + Solution.getHits()); }
+            public void run() {
+                System.out.println("\ngetHits returns: " + Solution.getHits());
+                System.out.println("Seconds logged: " + Solution.hitsEachSecond.size());  // Debug info for # seconds recorded
+            }
         }, 10000, 10000);
 
     }
@@ -61,9 +67,8 @@ class Solution {
      * Add 1 to the last array entry
      */
     private static void logHits() {
-        Long currentHits = Solution.hitsEachSecond.get(Solution.hitsEachSecond.size() - 1);
-        Solution.hitsEachSecond.set(Solution.hitsEachSecond.size() - 1, currentHits + 1);
-        System.out.print("H");  // Debug info indicating a new hit has been logged
+        Long hitsThisSecond = Solution.hitsEachSecond.get(Solution.hitsEachSecond.size() - 1);
+        Solution.hitsEachSecond.set(Solution.hitsEachSecond.size() - 1, hitsThisSecond + 1);
     }
 
     /**
@@ -71,7 +76,6 @@ class Solution {
      * @return the total value of the entries in the array
      */
     private static Long getHits() {
-        System.out.println("\nSeconds logged: " + Solution.hitsEachSecond.size());  // Debug info for # seconds recorded
         return Solution.hitsEachSecond.stream().mapToLong(a -> a).sum();
     }
 }
