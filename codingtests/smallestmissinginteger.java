@@ -9,8 +9,6 @@
 
 import java.util.Arrays;
 
-package foo;
-
 class Solution {
     public static int solution(int[] A) {
         // write your code in Java SE 8
@@ -33,21 +31,34 @@ class Solution {
         return retVal;
     }
 
+    private static int betterSolution(int[] A) {
+        Arrays.sort(A);
+
+        int missingInt = 0;
+        for (int entry : A) {
+            missingInt += 1;
+            if (entry != missingInt) {
+                return missingInt;
+            }
+        }
+        return 0;  // Indicates no missing integer
+    }
+
     public static void main(String[] args) {
-        int[] A = {10,20,30,40,50,60,71,80,90,91};;
-        System.out.println(solution(A));
-        A = new int[] {1,2,3,5,6,7};
-        System.out.println(solution(A));
+        runTests();
+    }
+
+    private static void runTests() {
+        System.out.println(solution(new int[] {1, 2, 4, 6, 3}));  // Expects 5
+        System.out.println(solution(new int[] {1, 3, 5, 7, 9}));  // Expects 2
+        System.out.println(solution(new int[] {-1, -2, -3, -5})); // Expects 1
+        System.out.println(solution(new int[] {1, 2, 3, 4, 5}));  // Expects 6
+        System.out.println(solution(new int[] {5, 4, 3, 1, 2}));  // Expects 6
+
+        System.out.println(betterSolution(new int[] {1, 2, 4, 6, 3}));  // Expects 5
+        System.out.println(betterSolution(new int[] {1, 3, 5, 7, 9}));  // Expects 2
+        System.out.println(betterSolution(new int[] {-1, -2, -3, -5})); // Expects 1
+        System.out.println(betterSolution(new int[] {1, 2, 3, 4, 5}));  // Expects 0
+        System.out.println(betterSolution(new int[] {5, 4, 3, 1, 2}));  // Expects 0
     }
 }
-
-public class Main {
-    public static void main(String[] args) {
-        Solution solution;
-        int[] A = {10,20,30,40,50,60,71,80,90,91};;
-        System.out.println(solution(A));
-        A = new int[] {1,2,3,5,6,7};
-        System.out.println(solution(A));
-    }
-}
-
