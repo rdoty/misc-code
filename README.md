@@ -1,7 +1,7 @@
-# random-scribbles
-A warning if you're reading this -- you're unlikely to find anything interesting.
+# misc-code
 
-Years ago I lost my old set of utilities and random code scraps scribbles from
-an old SVN server. I doubt I'll spend much time building up anything new here,
-but figured I'd create the repository for any files I might find useful in the
-future...
+Only a handful of exercises I thought to retain.
+Hopefully I'll add some more interesting code that I can publish - the
+majority of what I've written over the years is proprietary. 
+If I can find the code I backed up to CD many many years ago I'll add
+that here...
