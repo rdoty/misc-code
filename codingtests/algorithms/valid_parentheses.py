@@ -25,6 +25,17 @@ def is_valid(input_bracket_string: str) -> bool:
 
 # Usage
 if __name__ == "__main__":
-    test_strings = ["()[]{}", "(]", "([)]", "{[]}", "{(([{}]))}"]
-    for s in test_strings:
-        print(f"'{s}' is {'' if is_valid(s) else 'not '}valid")
+    test_data_list = [
+        {"test_input": "()[]{}", "expected_output": True}, 
+        {"test_input": "(]", "expected_output": False}, 
+        {"test_input": "([)]", "expected_output": False}, 
+        {"test_input": "{[]}", "expected_output": True}, 
+        {"test_input": "{(([{}]))}", "expected_output": True}, 
+    ]
+    
+    for test_data in test_data_list:
+        actual = is_valid(test_data['test_input'])
+        assert actual == test_data['expected_output'], \
+            f"Expected '{test_data['test_input']}' to be {test_data['expected_output']}"
+
+    print(f"PASSED {len(test_data_list)} TESTS")
