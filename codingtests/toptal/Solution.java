@@ -1,4 +1,6 @@
+package toptal;
 // From https://app.codility.com/demo/results/demoMWUUJC-GWW/
+
 // you can also use imports, for example:
 // import java.util.*;
 
@@ -9,8 +11,8 @@
 
 import java.util.Arrays;
 
-class Solution {
-    public static int solution(int[] A) {
+public class Solution {
+    public static int smallestMissingInteger(int[] A) {
         // write your code in Java SE 8
 
         // Count up from one and check the array provided until we
@@ -41,7 +43,7 @@ class Solution {
                 return missingInt;
             }
         }
-        return 0;  // Indicates no missing integer
+        return 0; // Indicates no missing integer
     }
 
     public static void main(String[] args) {
@@ -49,16 +51,16 @@ class Solution {
     }
 
     private static void runTests() {
-        System.out.println(solution(new int[] {1, 2, 4, 6, 3}));  // Expects 5
-        System.out.println(solution(new int[] {1, 3, 5, 7, 9}));  // Expects 2
-        System.out.println(solution(new int[] {-1, -2, -3, -5})); // Expects 1
-        System.out.println(solution(new int[] {1, 2, 3, 4, 5}));  // Expects 6
-        System.out.println(solution(new int[] {5, 4, 3, 1, 2}));  // Expects 6
+        System.out.println(smallestMissingInteger(new int[] { 1, 2, 4, 6, 3 })); // Expects 5
+        System.out.println(smallestMissingInteger(new int[] { 1, 3, 5, 7, 9 })); // Expects 2
+        System.out.println(smallestMissingInteger(new int[] { -1, -2, -3, -5 })); // Expects 1
+        System.out.println(smallestMissingInteger(new int[] { 1, 2, 3, 4, 5 })); // Expects 6
+        System.out.println(smallestMissingInteger(new int[] { 5, 4, 3, 1, 2 })); // Expects 6
 
-        System.out.println(betterSolution(new int[] {1, 2, 4, 6, 3}));  // Expects 5
-        System.out.println(betterSolution(new int[] {1, 3, 5, 7, 9}));  // Expects 2
-        System.out.println(betterSolution(new int[] {-1, -2, -3, -5})); // Expects 1
-        System.out.println(betterSolution(new int[] {1, 2, 3, 4, 5}));  // Expects 0
-        System.out.println(betterSolution(new int[] {5, 4, 3, 1, 2}));  // Expects 0
+        System.out.println(betterSolution(new int[] { 1, 2, 4, 6, 3 })); // Expects 5
+        System.out.println(betterSolution(new int[] { 1, 3, 5, 7, 9 })); // Expects 2
+        System.out.println(betterSolution(new int[] { -1, -2, -3, -5 })); // Expects 1
+        System.out.println(betterSolution(new int[] { 1, 2, 3, 4, 5 })); // Expects 0
+        System.out.println(betterSolution(new int[] { 5, 4, 3, 1, 2 })); // Expects 0
     }
 }
