@@ -1,23 +1,23 @@
 /**
- * Given array of integers 'nums' and integer 'target',
- * return indices of two numbers that add up to 'target'.
+ * Given array of integers 'numArray' and integer 'target',
+ * return array of indices of two numbers that add up to 'target'.
  * Time Complexity: O(n) - Single pass through the array via Map.
- * Space Complexity: O(n) - To store up to n elements in the Map.
+ * Space Complexity: O(n) - Store up to n elements in the Map.
  */
-function twoSum(nums, target) {
+function twoSum(numArray, target) {
     const seen = new Map();
-    for (let i = 0; i < nums.length; i++) {
-        const complement = target - nums[i];
+    for (let i = 0; i < numArray.length; i++) {
+        const complement = target - numArray[i];
         if (seen.has(complement)) {
             return [seen.get(complement), i];
         }
-        seen.set(nums[i], i);
+        seen.set(numArray[i], i);
     }
     return []; // Return empty if no solution found
 }
 
 // Usage
-const exampleNums = [2, 7, 11, 15];
-const exampleTarget = 9;
-const result = twoSum(exampleNums, exampleTarget);
-console.log(`Two Sum Solution for [${exampleNums}] with target ${exampleTarget}:`, result);
+const inputNumArray = [2, 7, 11, 15];
+const inputTarget = 9;
+const resultArray = twoSum(inputNumArray, inputTarget);
+console.log(`Two Sum Solution for [${inputNumArray}] with target ${inputTarget}:`, resultArray);

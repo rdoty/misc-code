@@ -1,35 +1,35 @@
 /**
- * Given string 's' containing just characters '(', ')', '{', '}', '[' and ']',
- * determine if input string is valid.
+ * Given string containing just characters '(', ')', '{', '}', '[' and ']',
+ * determine if it is valid.
  * Time Complexity: O(n) - Single pass through string of length n.
  * Space Complexity: O(n) - Worst case, stack will hold all brackets.
  */
-function isValid(s) {
-    const stack = [];
-    const bracketMap = {  // Mapping of closing / opening brackets
+function isValid(inputBracketString) {
+    const stackOfNestedBrackets = [];
+    const matchingBracketMap = {  // Mapping of closing / opening brackets
         ')': '(',
         '}': '{',
         ']': '['
     };
 
-    for (let char of s) {
-        if (char in bracketMap) {
+    for (let char of inputBracketString) {
+        if (char in matchingBracketMap) {
             // if stack is not empty, Pop the top element, else assign dummy value
-            const topElement = stack.length > 0 ? stack.pop() : '#';
+            const topElement = stackOfNestedBrackets.length > 0 ? stackOfNestedBrackets.pop() : '#';
 
             // If mapping doesn't match popped element, it's invalid
-            if (bracketMap[char] !== topElement) {
+            if (matchingBracketMap[char] !== topElement) {
                 return false;
             }
         } else {  // push opening bracket onto the stack
-            stack.push(char);
+            stackOfNestedBrackets.push(char);
         }
     }
-    return stack.length === 0;  // If stack is empty, all brackets matched
+    return stackOfNestedBrackets.length === 0;  // If stack is empty, all brackets matched
 }
 
 // Usage
-const testStrings = ["()[]{}", "(]", "([)]", "{[]}"];
+const testStrings = ["()[]{}", "(]", "([)]", "{[]}", "{(([{}]))}"];
 testStrings.forEach(s => {
     console.log(`Is '${s}' valid?`, isValid(s));
 });

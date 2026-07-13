@@ -1,30 +1,30 @@
 /**
- * Given sorted list 'arr', find the index of 'target'.
- * Returns -1 if the target is not present.
+ * Given sorted list 'sortedArray', find the index of 'targetInteger'.
+ * Returns -1 if the targetInteger is not present.
  * Time Complexity: O(log n) - Halves the search space in each iteration.
  * Space Complexity: O(1) - Iterative approach uses constant space.
  */
-function binarySearch(arr, target) {
-    let low = 0;
-    let high = arr.length - 1;
+function binarySearch(sortedArray, targetInteger) {
+    let rangeStart = 0;
+    let rangeEnd = sortedArray.length - 1;
 
-    while (low <= high) {
-        let mid = Math.floor((low + high) / 2); // ensure integer division
+    while (rangeStart <= rangeEnd) {
+        let currentLocation = Math.floor((rangeStart + rangeEnd) / 2); // ensure integer division
 
-        if (arr[mid] === target) {
-            return mid;
-        } else if (arr[mid] < target) {
-            low = mid + 1;
+        if (sortedArray[currentLocation] === targetInteger) {
+            return currentLocation;
+        } else if (sortedArray[currentLocation] < targetInteger) {
+            rangeStart = currentLocation + 1;
         } else {
-            high = mid - 1;
+            rangeEnd = currentLocation - 1;
         }
     }
     return -1;
 }
 
 // Usage
-const sortedArr = [1, 3, 5, 7, 9, 11, 13, 15];
-const targetVal = 7;
-const index = binarySearch(sortedArr, targetVal);
-console.log(`Array: [${sortedArr}]`);
-console.log(`Target ${targetVal} found at index:`, index);
+const sortedArray = [1, 3, 5, 7, 9, 11, 13, 15];
+const targetInteger = 7;
+const index = binarySearch(sortedArray, targetInteger);
+console.log(`sortedArray: [${sortedArray}]`);
+console.log(`(Zero-based) Location of targetValue ${targetInteger}:`, index);

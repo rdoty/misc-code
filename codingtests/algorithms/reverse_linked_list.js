@@ -1,5 +1,5 @@
 /** Definition for a singly-linked list node. */
-class ListNode {
+class SLLNode {
     constructor(val = 0, next = null) {
         this.val = val;
         this.next = next;
@@ -11,9 +11,9 @@ class ListNode {
  * Time Complexity: O(n) - through list of length n exactly once.
  * Space Complexity: O(1) - Constant space for pointers.
  */
-function reverseList(head) {
+function reverseList(singlyLinkedList) {
     let prev = null;
-    let current = head;
+    let current = singlyLinkedList;
 
     while (current !== null) {
         let nextNode = current.next; // Temporarily store the next node
@@ -24,21 +24,21 @@ function reverseList(head) {
     return prev; // prev new head of reversed list
 }
 
-function printList(head) {
-    const nodes = [];
-    let current = head;
+function printList(singlyLinkedList) {
+    const nodeList = [];
+    let current = singlyLinkedList;
     while (current !== null) {
-        nodes.push(current.val);
+        nodeList.push(current.val);
         current = current.next;
     }
-    console.log(nodes.length > 0 ? nodes.join(" -> ") : "Empty List");
+    console.log(nodeList.length > 0 ? nodeList.join(" -> ") : "Empty List");
 }
 
 // Usage
-const head = new ListNode(1, new ListNode(2, new ListNode(3, new ListNode(4, new ListNode(5)))));
+const inputSLList = new SLLNode(1, new SLLNode(2, new SLLNode(3, new SLLNode(4, new SLLNode(5)))));
 console.log("Original List:");
-printList(head);
+printList(inputSLList);
 
-const reversedHead = reverseList(head);
+const reversedSLL = reverseList(inputSLList);
 console.log("Reversed List:");
-printList(reversedHead);
+printList(reversedSLL);

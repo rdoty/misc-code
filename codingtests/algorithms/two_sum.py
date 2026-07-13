@@ -1,25 +1,25 @@
-def two_sum(nums, target):
+def two_sum(num_list, target_int):
     """
-    Given an array of integers 'nums' and an integer 'target', 
-    return indices of the two numbers such that they add up to 'target'.
+    Given array of integers 'num_list' and integer 'target_int', 
+    return list of indices of the two numbers that add up to 'target_int'.
     
-    Time Complexity: O(n) - Single pass through the list using a hash map.
-    Space Complexity: O(n) - To store up to n elements in the hash map.
+    Time Complexity: O(n) - Single pass through list using hash map.
+    Space Complexity: O(n) - Store up to n elements the hash map.
     """
-    # Map to store the value and its corresponding index
+    # Map to store the value and its corresponding location
     seen = {}
     
-    for index, num in enumerate(nums):
-        complement = target - num
+    for location, value in enumerate(num_list):
+        complement = target_int - value
         if complement in seen:
-            return [seen[complement], index]
-        seen[num] = index
+            return [seen[complement], location]
+        seen[value] = location
         
     return []  # Return empty list if no solution is found
 
 # Example Usage
 if __name__ == "__main__":
-    example_nums = [2, 7, 11, 15]
-    example_target = 9
-    result = two_sum(example_nums, example_target)
-    print(f"Two Sum Solution for {example_nums} with target {example_target}: {result}")
+    input_num_list = [2, 7, 11, 15]
+    input_target_int = 9
+    result_list = two_sum(input_num_list, input_target_int)
+    print(f"Two Sum Solution for {input_num_list} with target {input_target_int}: {result_list}")

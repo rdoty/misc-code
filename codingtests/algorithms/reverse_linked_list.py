@@ -1,10 +1,10 @@
-class ListNode:
+class SLLNode:
     """ Definition for a singly-linked list node. """
     def __init__(self, val=0, next=None):
-        self.val = val
-        self.next = next
+        self.val: int = val
+        self.next: SLLNode = next
 
-def reverse_list(head):
+def reverse_list(input_linked_list):
     """
     Reverse a singly linked list iteratively.
 
@@ -12,7 +12,7 @@ def reverse_list(head):
     Space Complexity: O(1) - Constant space utilized for pointers.
     """
     prev = None
-    current = head
+    current = input_linked_list
 
     while current:
         next_node = current.next  # Temp storage of next node
@@ -22,9 +22,9 @@ def reverse_list(head):
 
     return prev  # will be new head of reversed list
 
-def print_list(head):
+def print_linked_list(linked_list):
     nodes = []
-    current = head
+    current = linked_list
     while current:
         nodes.append(str(current.val))
         current = current.next
@@ -32,10 +32,10 @@ def print_list(head):
 
 # Usage
 if __name__ == "__main__":
-    head = ListNode(1, ListNode(2, ListNode(3, ListNode(4, ListNode(5)))))
+    input_linked_list = SLLNode(1, SLLNode(2, SLLNode(3, SLLNode(4, SLLNode(5)))))
     print("Original List:")
-    print_list(head)
+    print_linked_list(input_linked_list)
 
-    reversed_head = reverse_list(head)
+    reversed_head = reverse_list(input_linked_list)
     print("Reversed List:")
-    print_list(reversed_head)
+    print_linked_list(reversed_head)
