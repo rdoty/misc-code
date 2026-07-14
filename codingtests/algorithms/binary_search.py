@@ -20,10 +20,23 @@ def binary_search(sorted_list, target_int):
 
     return -1
 
-# Usage
+
+def test_binary_search():
+    test_data_list = [
+        {'sorted_list': [1, 3, 5, 7, 9], 'search_value': 0, 'expected': -1},
+        {'sorted_list': [1, 3, 5, 7, 9], 'search_value': 2, 'expected': -1},
+        {'sorted_list': [1, 3, 5, 7, 9], 'search_value': 3, 'expected': 1},
+        {'sorted_list': [1, 3, 5, 7, 9], 'search_value': 7, 'expected': 3},
+        {'sorted_list': [1, 3, 5, 7, 9], 'search_value': 10, 'expected': -1},
+    ]
+
+    for count, test_data in enumerate(test_data_list):
+        actual = binary_search(test_data['sorted_list'], test_data['search_value'])
+        assert actual == test_data['expected'], \
+            f"Test #{count+1}: Expected index of value: '{test_data['search_value']}' to be: '{test_data['expected']}', in list {test_data['sorted_list']}, actual: {actual}"
+
+    print(f"PASSED {len(test_data_list)} TESTS")
+
+
 if __name__ == "__main__":
-    sorted_list = [1, 3, 5, 7, 9, 11, 13, 15]
-    target_int = 7
-    index = binary_search(sorted_list, target_int)
-    print(f"sorted_list: {sorted_list}")
-    print(f"(Zero-based) Location of target_value {target_int}: {index}")
+    test_binary_search()  #run tests

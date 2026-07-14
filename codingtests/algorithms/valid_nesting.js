@@ -4,7 +4,7 @@
  * Time Complexity: O(n) - Single pass through string of length n.
  * Space Complexity: O(n) - Worst case, stack will hold all brackets.
  */
-function isValid(inputBracketString) {
+function isNestingValid(inputBracketString) {
     const stackOfNestedBrackets = [];
     const matchingBracketMap = {  // Mapping of closing / opening brackets
         ')': '(',
@@ -31,5 +31,5 @@ function isValid(inputBracketString) {
 // Usage
 const testStrings = ["()[]{}", "(]", "([)]", "{[]}", "{(([{}]))}"];
 testStrings.forEach(s => {
-    console.log(`Is '${s}' valid?`, isValid(s));
+    console.log(`Is '${s}' valid?`, isNestingValid(s));
 });

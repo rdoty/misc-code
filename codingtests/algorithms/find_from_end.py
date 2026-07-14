@@ -30,24 +30,30 @@ def find_from_end_v3(input_list: list, input_value):
     return  -1  # not found
 
 
-test_data_list = [
-    {'list': [2, 3, 4, 5, 7], 'search_value': 2, 'expected_index': 4},
-    {'list': [2, 3, 4, 5, 7], 'search_value': 5, 'expected_index': 1},
-    {'list': [2, 3, 4, 5, 7], 'search_value': 9, 'expected_index': -1},
-    {'list': [2, 3, 4, 5, 7], 'search_value': 6, 'expected_index': -1},
-    {'list': [2, 3, 4, 5, 7], 'search_value': 1, 'expected_index': -1},
-    {'list': [9], 'search_value': 2, 'expected_index': -1},
-    {'list': [9], 'search_value': 9, 'expected_index': 0},
-    {'list': [], 'search_value': 2, 'expected_index': -1},
-    {'list': [], 'search_value': 99, 'expected_index': -1},
-]
+def test_find_from_end_versions():
+    test_functions = [find_from_end_v1, find_from_end_v2, find_from_end_v3]
+    test_data_list = [
+        {'list': [2, 7, 4, 5, 3], 'search_value': 2, 'expected': 4},
+        {'list': [4, 3, 2, 5, 7], 'search_value': 5, 'expected': 1},
+        {'list': [7, 3, 4, 5, 2], 'search_value': 9, 'expected': -1},
+        {'list': [2, 5, 4, 3, 7], 'search_value': 6, 'expected': -1},
+        {'list': [2, 3, 4, 5, 7], 'search_value': 1, 'expected': -1},
+        {'list': [9], 'search_value': 2, 'expected': -1},
+        {'list': [9], 'search_value': 9, 'expected': 0},
+        {'list': [9], 'search_value': None, 'expected': -1},
+        {'list': [], 'search_value': 99, 'expected': -1},
+        {'list': [], 'search_value': None, 'expected': -1},
+    ]
 
-# run tests
-for def_name in [find_from_end_v1, find_from_end_v2, find_from_end_v3]:
-    print(f"\nTesting {def_name.__name__}:")
-    for test_data in test_data_list:
-        actual_index = def_name(test_data['list'], test_data['search_value'])
-        assert test_data['expected_index'] == actual_index, \
-            f"Expected index of value: '{test_data['search_value']}' to be: '{test_data['expected_index']}', in list {test_data['list']}"
+    for def_name in test_functions:
+        print(f"\nTesting {def_name.__name__}:")
+        for count, test_data in enumerate(test_data_list):
+            actual = def_name(test_data['list'], test_data['search_value'])
+            assert test_data['expected'] == actual, \
+                f"Test #{count+1}: Expected index of value: '{test_data['search_value']}' to be: '{test_data['expected']}', in list {test_data['list']}: actual: {actual}"
 
-    print(f"PASSED {len(test_data_list)} TESTS")
+        print(f"PASSED {len(test_data_list)} TESTS")
+
+
+if __name__ == "__main__":
+    test_find_from_end_versions()  # run tests

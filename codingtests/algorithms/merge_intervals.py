@@ -24,9 +24,32 @@ def merge_intervals(interval_list):
 
     return merged_intervals
 
-# Usage
+
+def test_merge_intervals():
+    test_data_list = [
+        {
+            'input': [[1, 3], [2, 6], [8, 10], [15, 18]], 
+            'expected': [[1, 6], [8, 10], [15, 18]]
+        },
+        {
+            'input': [[1, 3], [5, 6], [8, 10], [15, 18]], 
+            'expected': [[1, 3], [5, 6], [8, 10], [15, 18]]
+        },
+        {
+            'input': [[1, 3], [2, 6], [5, 10], [9, 18]], 
+            'expected': [[1, 18]]
+        },
+        {'input': [[1,2]], 'expected': [[1,2]]},
+        {'input': [[1]], 'expected': [[1]]},
+        {'input': [], 'expected': []},
+    ]
+    for count, test_data in enumerate(test_data_list):
+        actual = merge_intervals(test_data['input'])
+        assert actual == test_data['expected'], \
+            f"Test #{count+1}: Expected {test_data['expected']}, actual: {actual}"
+
+    print(f"PASSED {len(test_data_list)} TESTS")
+
+
 if __name__ == "__main__":
-    input_intervals = [[1, 3], [2, 6], [8, 10], [15, 18]]
-    result_list = merge_intervals(input_intervals)
-    print(f"Original Intervals: {input_intervals}")
-    print(f"Merged Intervals:   {result_list}")
+    test_merge_intervals()  # run tests

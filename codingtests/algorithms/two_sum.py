@@ -17,9 +17,21 @@ def two_sum(num_list, target_int):
         
     return []  # Return empty list if no solution is found
 
-# Example Usage
+
+def test_two_sum():
+    test_data_list = [
+        {"list": [2, 7, 11, 15], "target": 9, "expected": [0, 1]},
+        {"list": [2, 7, 11, 15], "target": 18, "expected": [1, 2]},
+        {"list": [2, 7, 11, 15], "target": 13, "expected": [0, 2]},
+        {"list": [2, 7, 11, 15], "target": 3, "expected": []},
+    ]
+    for count, test_data in enumerate(test_data_list):
+        actual = two_sum(test_data['list'], test_data["target"])
+        assert actual == test_data["expected"], \
+            f"Test #{count+1}: Expected: {test_data['expected']}, actual: {actual}"
+
+    print(f"PASSED {len(test_data_list)} TESTS")
+
+
 if __name__ == "__main__":
-    input_num_list = [2, 7, 11, 15]
-    input_target_int = 9
-    result_list = two_sum(input_num_list, input_target_int)
-    print(f"Two Sum Solution for {input_num_list} with target {input_target_int}: {result_list}")
+    test_two_sum()  # run tests
