@@ -46,7 +46,7 @@ def test_find_from_end_versions():
     ]
 
     for def_name in test_functions:
-        print(f"\nTesting {def_name.__name__}:")
+        print(f"\nTesting {def_name.__name__}():")
         for count, test_data in enumerate(test_data_list):
             actual = def_name(test_data['list'], test_data['search_value'])
             assert test_data['expected'] == actual, \
