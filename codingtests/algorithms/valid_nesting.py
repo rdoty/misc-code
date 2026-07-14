@@ -6,7 +6,7 @@ def is_valid_nesting(input_bracket_string: str) -> bool:
     Time Complexity: O(n) - Single pass through string of length n.
     Space Complexity: O(n) - Worst case, stack will hold all brackets.
     """
-    stack_nested_brackets = []
+    stack_nested_brackets:list = []
     # Mapping closing brackets to corresponding opening brackets
     matching_bracket_map = {")": "(", "}": "{", "]": "["}
 

@@ -58,8 +58,7 @@ def guts():
                 else ['Cat', h_w_input[0], h_w_input[1]]
         set_data(new_row)
     else:
-        print "Found preference for Height: {:f}, Weight: {:f}. Preference: {:s}"\
-            .format(h_w_input[0], h_w_input[1], the_result[0])
+        print ("Found preference for Height: {:f}, Weight: {:f}. Preference: {:s}".format(h_w_input[0], h_w_input[1], the_result[0]))
 
 
 # Testing stub

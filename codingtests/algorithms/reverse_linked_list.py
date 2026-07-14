@@ -1,6 +1,6 @@
 class SLLNode:
     """ Definition for a singly-linked list node. """
-    def __init__(self, val=0, next=None):
+    def __init__(self, val:int=0, next=None):
         self.val: int = val
         self.next: SLLNode = next
 
