@@ -1,15 +1,16 @@
 # you can write to stdout for debugging purposes, e.g.
 # print("this is a debug message")
-# Write a function that given two strings S and T
-# determines whether string T can be obtained from string S
-# using only one the following operations (responses?)
-# (operations on the source or the target?)
+# Given two strings S and T consisting of N and M characters, respectively
+# determine whether string T can be obtained from string S by at most one
+# the operation from the following set on string S:
 
-# INSERT c
-# REPLACE c
-# SWAP c d
-# EQUAL
-# IMPOSSIBLE
+# INSERT c -- T can be obtained from S by insertng a single character 'c'
+# REPLACE c d -- T can be obtained from S by replacing single occurence of 'c'
+# with a single character 'd' 
+# SWAP c d -- T can be obtained from S by swapping two adjanced characters
+# 'c' and 'd' (distint characters in the same order in both strings)
+# EQUAL -- No operations needed
+# IMPOSSIBLE -- None of the above works
 
 
 def which_allowed_method_obtains_t_from_s(s:str, t:str) -> str:
@@ -75,6 +76,9 @@ def test_t_from_s_methods():
         {'source': 'swap', 'target': 'swpa', 'is_t_in_s': True, 'method_contains': 'SWAP'},
         {'source': 'test', 'target': 'tent', 'is_t_in_s': False, 'method_contains': 'REPLACE'},
         {'source': 'swap', 'target': 'bad', 'is_t_in_s': False, 'method_contains': 'IMPOSSIBLE'},
+        {'source': 'nice', 'target': 'niece', 'is_t_in_s': True, 'method_contains': 'INSERT'},
+        {'source': 'form', 'target': 'from', 'is_t_in_s': True, 'method_contains': 'SWAP'},
+        {'source': 'o', 'target': 'odd', 'is_t_in_s': False, 'method_contains': 'IMPOSSIBLE'},
     ]
 
     print(f"\nTesting can_obtain_str_t_from_str_s():")
@@ -83,11 +87,15 @@ def test_t_from_s_methods():
         assert test_data['is_t_in_s'] == actual, \
             f"Test #{count+1}: Expected: target '{test_data['target']}' to be: '{test_data['is_t_in_s']}': actual: {actual}"
 
+    print(f"PASSED {len(test_data_list)} TESTS")
+
     print(f"\nTesting which_allowed_method_obtains_t_from_s():")
     for count, test_data in enumerate(test_data_list):
         actual = which_allowed_method_obtains_t_from_s(test_data['source'], test_data['target'])
         assert test_data['method_contains'] in actual, \
             f"Test #{count+1}: Expected: method '{test_data['method_contains']}' to be in: '{actual}'"
+
+    print(f"PASSED {len(test_data_list)} TESTS")
 
 
 if __name__ == "__main__":
