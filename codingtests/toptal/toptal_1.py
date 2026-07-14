@@ -2,7 +2,8 @@
 # print("this is a debug message")
 # Write a function that given two strings S and T
 # determines whether string T can be obtained from string S
-# using only one the following operations
+# using only one the following operations (responses?)
+# (operations on the source or the target?)
 
 # INSERT c
 # REPLACE c
@@ -11,7 +12,7 @@
 # IMPOSSIBLE
 
 
-def solution(s, t):
+def which_allowed_method_obtains_t_from_s(s:str, t:str) -> str:
     # Determine difference(s) between s and t
     # determine whether a single operation of insert, replace, swap are needed
     # Easy first test on EQUAL
@@ -52,12 +53,42 @@ def solution(s, t):
     return "UNDEFINED"
 
 
-# Tests
-print(solution("foo", "foo"))  # expects EQUAL
-print(solution("foo", "foods"))  # expects IMPOSSIBLE
-print(solution("foods", "foo"))  # expects IMPOSSIBLE
-print(solution("pfoo", "foo"))  # expects INSERT
-print(solution("test", "tent"))  # expects REPLACE
-print(solution("swap", "wsap"))  # expects SWAP
-print(solution("swap", "sawp"))  # expects SWAP
-print(solution("swap", "swpa"))  # expects SWAP
+def can_obtain_str_t_from_str_s(source_str: str, target_str: str) -> bool:
+    """
+    Take the set of characters in source, update with set of characters
+    in destination. If the source set doesn't change, you can obtain
+    the target from the source (but not necessarily with the allowed methods).
+    """
+    merged_set = set(source_str)
+    merged_set.update(set(target_str))
+    return merged_set == set(source_str)
+
+
+def test_t_from_s_methods():
+    test_data_list = [
+        {'source': 'foo', 'target': 'foo', 'is_t_in_s': True, 'method_contains': 'EQUAL'},
+        {'source': 'foo', 'target': 'foods', 'is_t_in_s': False, 'method_contains': 'IMPOSSIBLE'},
+        {'source': 'foods', 'target': 'foo', 'is_t_in_s': True, 'method_contains': 'IMPOSSIBLE'},
+        {'source': 'pfoo', 'target': 'foo', 'is_t_in_s': True, 'method_contains': 'INSERT'},
+        {'source': 'swap', 'target': 'wsap', 'is_t_in_s': True, 'method_contains': 'SWAP'},
+        {'source': 'swap', 'target': 'sawp', 'is_t_in_s': True, 'method_contains': 'SWAP'},
+        {'source': 'swap', 'target': 'swpa', 'is_t_in_s': True, 'method_contains': 'SWAP'},
+        {'source': 'test', 'target': 'tent', 'is_t_in_s': False, 'method_contains': 'REPLACE'},
+        {'source': 'swap', 'target': 'bad', 'is_t_in_s': False, 'method_contains': 'IMPOSSIBLE'},
+    ]
+
+    print(f"\nTesting can_obtain_str_t_from_str_s():")
+    for count, test_data in enumerate(test_data_list):
+        actual = can_obtain_str_t_from_str_s(test_data['source'], test_data['target'])
+        assert test_data['is_t_in_s'] == actual, \
+            f"Test #{count+1}: Expected: target '{test_data['target']}' to be: '{test_data['is_t_in_s']}': actual: {actual}"
+
+    print(f"\nTesting which_allowed_method_obtains_t_from_s():")
+    for count, test_data in enumerate(test_data_list):
+        actual = which_allowed_method_obtains_t_from_s(test_data['source'], test_data['target'])
+        assert test_data['method_contains'] in actual, \
+            f"Test #{count+1}: Expected: method '{test_data['method_contains']}' to be in: '{actual}'"
+
+
+if __name__ == "__main__":
+    test_t_from_s_methods()  # run tests
