@@ -1,7 +1,7 @@
 import unittest
 from collections import deque
 
-def dfs_graph_path(graph:dict, start:char, target:char, visited=None):
+def dfs_graph_path(graph:dict, start:str, target:str, visited=None):
     """
     Use Depth-First Search (Recursive) to find path from start to target.
     Return path as a list of nodes, or None.
@@ -22,7 +22,7 @@ def dfs_graph_path(graph:dict, start:char, target:char, visited=None):
     return None
 
 
-def bfs_graph_path(graph:dict, start:char, target:char):
+def bfs_graph_path(graph:dict, start:str, target:str):
     """
     Use Breadth-First Search (Iterative) to find shortest path from start to target
     Return path as a list of nodes, or None.
@@ -48,34 +48,33 @@ def bfs_graph_path(graph:dict, start:char, target:char):
 
 class TestGraphSearches(unittest.TestCase):
     def setUp(self):
-        self.graph = {  # graph with two ways to get to 'D'
+        self.test_functions = [dfs_graph_path, bfs_graph_path]
+        self.test_graph = {  # graph with two ways to get to 'D'
             'A': ['B', 'C'],
             'B': ['F'],
             'C': ['D'],
             'F': ['D'],
             'D': []
         }
+        self.test_data_list = [
+            {'start_node': 'A', 'target_node': 'C', 'expected': ['A', 'C']},
+            {'start_node': 'A', 'target_node': 'F', 'expected': ['A', 'B', 'F']},
+            {'start_node': 'B', 'target_node': 'C', 'expected': None},
+            {'start_node': 'E', 'target_node': 'A', 'expected': None},
+        ]
 
-    def test_dfs_path_found(self):
-        self.assertEqual(dfs_graph_path(self.graph, 'A', 'C'), ['A', 'C'])
-        self.assertEqual(dfs_graph_path(self.graph, 'A', 'D'), ['A', 'B', 'F', 'D'])
-        self.assertEqual(dfs_graph_path(self.graph, 'A', 'F'), ['A', 'B', 'F'])
+    def test_graph_searches(self):
+        for def_name in self.test_functions:
+            print(f"\nTesting {def_name.__name__}():")
+            for count, test_data in enumerate(self.test_data_list):
+                self.assertEqual(
+                    def_name(self.test_graph, test_data['start_node'], test_data['target_node']),
+                    test_data['expected']
+                )
 
-    def test_dfs_no_path(self):
-        self.assertIsNone(dfs_graph_path(self.graph, 'B', 'C'))
-
-    def test_bfs_path_found(self):
-        self.assertEqual(bfs_graph_path(self.graph, 'A', 'C'), ['A', 'C'])
-        self.assertEqual(bfs_graph_path(self.graph, 'A', 'D'), ['A', 'C', 'D'])
-        self.assertEqual(bfs_graph_path(self.graph, 'A', 'F'), ['A', 'B', 'F'])
-
-    def test_bfs_no_path(self):
-        self.assertIsNone(bfs_graph_path(self.graph, 'E', 'A'))
-
-    def test_bfs_shortest_path(self):
-        # Should find shorter route A -> C -> D
-        # instead of A -> B -> F -> D (length 4)
-        self.assertEqual(bfs_graph_path(self.graph, 'A', 'D'), ['A', 'C', 'D'])
+        # Since output differs, separately confirm breath-first finds shorter path
+        self.assertEqual(dfs_graph_path(self.test_graph, 'A', 'D'), ['A', 'B', 'F', 'D'])
+        self.assertEqual(bfs_graph_path(self.test_graph, 'A', 'D'), ['A', 'C', 'D'])
 
 
 if __name__ == '__main__':
