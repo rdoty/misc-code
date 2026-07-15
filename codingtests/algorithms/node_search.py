@@ -51,14 +51,14 @@ class TestGraphSearches(unittest.TestCase):
         self.test_functions = [dfs_graph_path, bfs_graph_path]
         self.test_graph = {  # graph with two ways to get to 'D'
             'A': ['B', 'C'],
-            'B': ['F'],
+            'B': ['E'],
             'C': ['D'],
-            'F': ['D'],
-            'D': []
+            'D': [],
+            'E': ['D']
         }
         self.test_data_list = [
             {'start_node': 'A', 'target_node': 'C', 'expected': ['A', 'C']},
-            {'start_node': 'A', 'target_node': 'F', 'expected': ['A', 'B', 'F']},
+            {'start_node': 'A', 'target_node': 'E', 'expected': ['A', 'B', 'E']},
             {'start_node': 'B', 'target_node': 'C', 'expected': None},
             {'start_node': 'E', 'target_node': 'A', 'expected': None},
         ]
@@ -73,7 +73,7 @@ class TestGraphSearches(unittest.TestCase):
                 )
 
         # Since output differs, separately confirm breath-first finds shorter path
-        self.assertEqual(dfs_graph_path(self.test_graph, 'A', 'D'), ['A', 'B', 'F', 'D'])
+        self.assertEqual(dfs_graph_path(self.test_graph, 'A', 'D'), ['A', 'B', 'E', 'D'])
         self.assertEqual(bfs_graph_path(self.test_graph, 'A', 'D'), ['A', 'C', 'D'])
 
 
