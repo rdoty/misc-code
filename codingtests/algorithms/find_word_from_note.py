@@ -38,26 +38,23 @@ S = maximal length of each word or of the note
 """
 
 def find_word_from_note(words: list, note: str) -> str:
-    """
+    """ Algorithm
     For each word, look for each of its character in the note.
         If the character is not found, the word is not in the note
         If the character is found, remove the character from the note
+        If there are no more of the word's characters to find, return word
     """
-    print(f"\nSearching note: {note} for {len(words)} words")
     for word in words:
-        word_copy = word
+        letters_remaining = len(word)
         note_copy = note
         for character in word:
             if character in note_copy:
                 note_copy = note_copy.replace(character, "", 1)
-                word_copy = word_copy.replace(character, "", 1)
-                if len(word_copy) == 0:
-                    print (f"FOUND {word}")
-                    return word
+                letters_remaining -= 1
             else:
-                print (f"{word} NOT IN {note}")
                 break
-    print ("-")
+            if not letters_remaining:
+                return word
     return '-'
 
 def test_find_word_from_notes():
@@ -66,7 +63,9 @@ def test_find_word_from_notes():
     expected = ["cat", "cat", "-", "baby", "-", "bird", "dada"]
 
     for count, note in enumerate(notes):
-        assert expected[count] == find_word_from_note(words, note)
-    
+        print(f"\nSearching note: {note} for {len(words)} words")
+        actual = find_word_from_note(words, note)
+        print (f"FOUND: {actual}")
+        assert expected[count] == actual
 
 test_find_word_from_notes()
